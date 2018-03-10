@@ -43,4 +43,14 @@ public class PromiseBean {
     public void setPromiseRemarks(String promiseRemarks) {
         this.promiseRemarks = promiseRemarks;
     }
+
+    @Override
+    public String toString() {
+        return "PromiseBean{" +
+                "promiseMoney='" + promiseMoney + '\'' +
+                ", promiseDate='" + promiseDate + '\'' +
+                ", promiseDescription='" + promiseDescription + '\'' +
+                ", promiseRemarks='" + promiseRemarks + '\'' +
+                '}';
+    }
 }

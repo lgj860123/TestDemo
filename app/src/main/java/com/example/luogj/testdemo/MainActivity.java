@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -13,7 +14,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener,
+        OnMoneyFillListener, OnDateFillListener,OnDescriptionFillListener,OnRemarksFillListener,OnItemClickListener{
 
     private Context context;
     private RelativeLayout rl_addPromise;
@@ -21,6 +23,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private Button but_commit;
     private PromiseAdapter adapter;
     private List<PromiseBean> promiseBeanList;
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rv_promise.setLayoutManager(manager);
+        adapter.setMoneyFillListener(this);
+        adapter.setDateFillListener(this);
+        adapter.setDescriptionFillListener(this);
+        adapter.setRemarksFillListener(this);
+        adapter.setItemClickListener(this);
         rv_promise.setAdapter(adapter);
     }
 
@@ -64,11 +72,59 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     private void addPromise() {
         PromiseBean promiseBean = new PromiseBean();
-        promiseBeanList.add(promiseBean);
-        adapter.setPromiseBeanList(promiseBeanList);
+        promiseBean.setPromiseMoney(null);
+        promiseBean.setPromiseDate(null);
+        promiseBean.setPromiseDescription(null);
+        promiseBean.setPromiseRemarks(null);
+        promiseBeanList.add(index,promiseBean);
+        adapter.setPromiseBeanList(index,promiseBeanList);
+        index++;
     }
 
     private void getPromiseData() {
+        if (promiseBeanList != null && promiseBeanList.size() != 0){
+            for (PromiseBean promiseBean : promiseBeanList){
+                Log.i("getPromiseData", "getPromiseData: " + promiseBean.toString() + "\n");
+            }
+        }
+    }
 
+    @Override
+    public void onMoneyFill(int position, String money) {
+        if (position < promiseBeanList.size()){
+            promiseBeanList.get(position).setPromiseMoney(money);
+        }
+    }
+
+    @Override
+    public void onDateFill(int position, String date) {
+        if (position < promiseBeanList.size()){
+            promiseBeanList.get(position).setPromiseDate(date);
+        }
+    }
+
+    @Override
+    public void onDescriptionFill(int position, String description) {
+        if (position < promiseBeanList.size()){
+            promiseBeanList.get(position).setPromiseDescription(description);
+        }
+    }
+
+    @Override
+    public void onRemarksFill(int position, String remarks) {
+        if (position < promiseBeanList.size()){
+            promiseBeanList.get(position).setPromiseRemarks(remarks);
+        }
+    }
+
+
+    @Override
+    public void onItemClick(View view, int position) {
+        PromiseBean promiseBean = promiseBeanList.get(position);
+
+        promiseBeanList.remove(promiseBean);
+        adapter.notifyItemRemoved(position);
+        index--;
+        Log.i("getPromiseData", "onItemClick: "+position);
     }
 }
