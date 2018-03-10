@@ -40,6 +40,7 @@ public class PromiseAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        PromiseHolder promiseHolder = (PromiseHolder) holder;
 
     }
 
