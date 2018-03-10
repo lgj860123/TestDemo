@@ -45,6 +45,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         adapter = new PromiseAdapter(context);
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv_promise.setLayoutManager(manager);
         rv_promise.setAdapter(adapter);
     }
 
@@ -52,9 +53,22 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.rl_addPromise:
+                addPromise();
                 break;
             case R.id.but_commit:
+                getPromiseData();
                 break;
         }
+    }
+
+
+    private void addPromise() {
+        PromiseBean promiseBean = new PromiseBean();
+        promiseBeanList.add(promiseBean);
+        adapter.setPromiseBeanList(promiseBeanList);
+    }
+
+    private void getPromiseData() {
+
     }
 }
