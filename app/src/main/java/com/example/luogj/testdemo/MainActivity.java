@@ -121,7 +121,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void onItemClick(View view, int position) {
         PromiseBean promiseBean = promiseBeanList.get(position);
-
         promiseBeanList.remove(promiseBean);
         adapter.notifyItemRemoved(position);
         index--;
