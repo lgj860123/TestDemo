@@ -2,6 +2,7 @@ package com.example.luogj.testdemo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
     private Context context;
     private RelativeLayout rl_addPromise;
     private RecyclerView rv_promise;
-    private Button but_commit;
+    private Button but_commit,but_other;
     private PromiseAdapter adapter;
     private List<PromiseBean> promiseBeanList;
     private int index = 0;
@@ -41,8 +42,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
         rv_promise = findViewById(R.id.rv_promise);
         but_commit = findViewById(R.id.but_commit);
 
+        but_other = findViewById(R.id.but_other);
+
         rl_addPromise.setOnClickListener(this);
         but_commit.setOnClickListener(this);
+        but_other.setOnClickListener(this);
 
         promiseBeanList = new ArrayList<>();
         adapter = new PromiseAdapter(context);
@@ -66,8 +70,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
             case R.id.but_commit:
                 getPromiseData();
                 break;
+            case R.id.but_other:
+                gotoOtherView();
+                break;
         }
     }
+
 
 
     private void addPromise() {
@@ -126,4 +134,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
         index--;
         Log.i("getPromiseData", "onItemClick: "+position);
     }
+
+
+    private void gotoOtherView() {
+        Intent intent = new Intent(context,OtherActivity.class);
+        startActivity(intent);
+    }
+
 }
