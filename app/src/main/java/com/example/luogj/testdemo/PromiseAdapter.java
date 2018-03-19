@@ -41,7 +41,11 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
      */
     public void setPromiseBeanList(List<PromiseBean> data) {
         this.promiseBeanList = data;
-        notifyDataSetChanged();
+        if (promiseBeanList.size() == 1){
+            notifyDataSetChanged();
+        }else {
+            notifyItemInserted(promiseBeanList.size() - 1);
+        }
     }
 
     /**
@@ -105,6 +109,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
 
         final PromiseBean promiseBean = promiseBeanList.get(position);
 
+        holder.et_money.setText("");
         holder.et_money.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -124,6 +129,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
             }
         });
 
+        holder.et_date.setText("");
         holder.et_date.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -143,6 +149,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
             }
         });
 
+        holder.et_description.setText("");
         holder.et_description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -162,6 +169,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
             }
         });
 
+        holder.et_remarks.setText("");
         holder.et_remarks.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
@@ -186,7 +194,9 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
             @Override
             public void onClick(View view) {
                 if (delPromiseItemListener != null){
+                    promiseBeanList.remove(promiseBean);
                     delPromiseItemListener.delPromiseItem(promiseBean,position);
+                    notifyItemRemoved(position);
                 }
             }
         });

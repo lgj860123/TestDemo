@@ -45,19 +45,22 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
     }
 
     @Override
-    public void onBindViewHolder(OtherHolder holder, final int position) {
+    public void onBindViewHolder(final OtherHolder holder, final int position) {
         OtherHolder otherHolder = holder;
+        holder.but_location.setTag(position);
         final OtherBean otherBean = otherBeanList.get(position);
         otherHolder.tv_desc.setText(otherBean.getOtherDesc());
         holder.but_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (addressItemListener != null){
-                    AddressBean addressBean = new AddressBean();
-                    String otherDesc = otherBean.getOtherDesc() + "==" + position;
-                    addressBean.setAddress(otherDesc);
-                    addressBean.setId(position);
-                    addressItemListener.addAddressItem(addressBean,position);
+                    if ((int)holder.but_location.getTag() == position){
+                        AddressBean addressBean = new AddressBean();
+                        String otherDesc = otherBean.getOtherDesc() + "==" + position;
+                        addressBean.setAddress(otherDesc);
+                        addressBean.setId(position);
+                        addressItemListener.addAddressItem(addressBean,position);
+                    }
                 }
             }
         });

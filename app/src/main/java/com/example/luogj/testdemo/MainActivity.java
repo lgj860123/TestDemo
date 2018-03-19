@@ -122,7 +122,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
     public void delPromiseItem(PromiseBean promiseBean, int position) {
         Log.i("getPromiseData", "##### delPromiseItem: " + position);
         promiseBeanList.remove(promiseBean);
-        adapter.setPromiseBeanList(promiseBeanList);
+//        adapter.setPromiseBeanList(promiseBeanList);
+//        adapter.notifyItemChanged(position);
     }
 
     /**

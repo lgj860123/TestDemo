@@ -77,7 +77,22 @@ public class OtherActivity extends Activity implements AddAddressItemListener{
 
     @Override
     public void addAddressItem(AddressBean addressBean, int position) {
-        addressBeanList.add(addressBean);
-        twoAdapter.setAddressBeanList(addressBeanList);
+        if (addressBeanList.size() == 0){
+            addressBeanList.add(addressBean);
+            twoAdapter.setAddressBeanList(addressBeanList);
+        }else {
+            for (int i = 0; i < addressBeanList.size(); i++){
+                AddressBean bean = addressBeanList.get(i);
+                if (bean.getId() != position){
+                    continue;
+                }else {
+                    return;
+                }
+            }
+            addressBeanList.add(addressBean);
+            twoAdapter.setAddressBeanList(addressBeanList);
+        }
+
+
     }
 }
