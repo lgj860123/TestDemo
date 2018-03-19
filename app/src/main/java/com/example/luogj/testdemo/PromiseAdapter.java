@@ -28,49 +28,72 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
     private OnDateFillListener dateFillListener;
     private OnDescriptionFillListener descriptionFillListener;
     private OnRemarksFillListener remarksFillListener;
-    private OnItemClickListener itemClickListener;
+    private DelPromiseItemListener delPromiseItemListener;
 
     public PromiseAdapter(Context context) {
         this.context = context;
         promiseBeanList = new ArrayList<>();
     }
 
-    public void setPromiseBeanList(int position,List<PromiseBean> data) {
-        this.promiseBeanList = data;
-        notifyItemInserted(position);//通知演示插入动画
-        notifyItemRangeChanged(position,promiseBeanList.size()-position);//通知数据与界面重新绑定
-    }
-
+    /**
+     * 设置适配器数据
+     * @param data
+     */
     public void setPromiseBeanList(List<PromiseBean> data) {
         this.promiseBeanList = data;
         notifyDataSetChanged();
     }
 
-
+    /**
+     * 设置金额编辑框监听器
+     * @param moneyFillListener
+     */
     public void setMoneyFillListener(OnMoneyFillListener moneyFillListener) {
         this.moneyFillListener = moneyFillListener;
     }
 
+    /**
+     * 设置日期编辑框监听器
+     * @param dateFillListener
+     */
     public void setDateFillListener(OnDateFillListener dateFillListener) {
         this.dateFillListener = dateFillListener;
     }
 
+    /**
+     * 设置描述编辑框监听器
+     * @param descriptionFillListener
+     */
     public void setDescriptionFillListener(OnDescriptionFillListener descriptionFillListener) {
         this.descriptionFillListener = descriptionFillListener;
     }
 
+    /**
+     * 设置备注编辑框监听器
+     * @param remarksFillListener
+     */
     public void setRemarksFillListener(OnRemarksFillListener remarksFillListener) {
         this.remarksFillListener = remarksFillListener;
     }
 
-    public void setItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    /**
+     * 设置删除按钮监听器
+     * @param listener
+     */
+    public void setDelPromiseItemListener(DelPromiseItemListener listener){
+        this.delPromiseItemListener = listener;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public PromiseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.view_item_view,parent,false);
-        return new PromiseHolder(view,itemClickListener);
+        return new PromiseHolder(view);
     }
 
     @Override
@@ -80,6 +103,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
         holder.et_description.setTag(position);
         holder.et_remarks.setTag(position);
 
+        final PromiseBean promiseBean = promiseBeanList.get(position);
 
         holder.et_money.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,6 +181,16 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
             }
         });
 
+        //viewHolder中的删除控件
+        holder.iv_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (delPromiseItemListener != null){
+                    delPromiseItemListener.delPromiseItem(promiseBean,position);
+                }
+            }
+        });
+
     }
 
 
@@ -171,38 +205,28 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
         private final EditText et_date;
         private final EditText et_description;
         private final EditText et_remarks;
-        private OnItemClickListener onItemClickListener;
+        private final ImageView iv_del;
 
-        public PromiseHolder(View itemView,OnItemClickListener itemClickListener) {
+        public PromiseHolder(View itemView) {
             super(itemView);
-            this.onItemClickListener = itemClickListener;
             et_money = itemView.findViewById(R.id.et_money);
             et_date = itemView.findViewById(R.id.et_date);
             et_description = itemView.findViewById(R.id.et_description);
             et_remarks = itemView.findViewById(R.id.et_remarks);
             ImageView iv_next = itemView.findViewById(R.id.iv_next);
-            ImageView iv_del = itemView.findViewById(R.id.iv_del);
+            iv_del = itemView.findViewById(R.id.iv_del);
             iv_next.setOnClickListener(this);
-            iv_del.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()){
-                case R.id.iv_del:
-                    delPromise(view);
-                    break;
                 case R.id.iv_next:
                     doNext();
                     break;
             }
         }
-
-        private void delPromise(View view) {
-            onItemClickListener.onItemClick(view, getLayoutPosition());
-        }
-
 
         private void doNext() {
 

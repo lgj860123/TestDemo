@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener,
-        OnMoneyFillListener, OnDateFillListener,OnDescriptionFillListener,OnRemarksFillListener,OnItemClickListener{
+        OnMoneyFillListener, OnDateFillListener,OnDescriptionFillListener,OnRemarksFillListener,DelPromiseItemListener{
 
     private Context context;
     private RelativeLayout rl_addPromise;
@@ -24,7 +24,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
     private Button but_commit,but_other;
     private PromiseAdapter adapter;
     private List<PromiseBean> promiseBeanList;
-    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
         adapter.setDateFillListener(this);
         adapter.setDescriptionFillListener(this);
         adapter.setRemarksFillListener(this);
-        adapter.setItemClickListener(this);
+        adapter.setDelPromiseItemListener(this);
         rv_promise.setAdapter(adapter);
     }
 
@@ -77,16 +76,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
 
-
     private void addPromise() {
         PromiseBean promiseBean = new PromiseBean();
-        promiseBean.setPromiseMoney(null);
-        promiseBean.setPromiseDate(null);
-        promiseBean.setPromiseDescription(null);
-        promiseBean.setPromiseRemarks(null);
-        promiseBeanList.add(index,promiseBean);
-        adapter.setPromiseBeanList(index,promiseBeanList);
-        index++;
+        promiseBeanList.add(promiseBean);
+        adapter.setPromiseBeanList(promiseBeanList);
     }
 
     private void getPromiseData() {
@@ -125,20 +118,20 @@ public class MainActivity extends Activity implements View.OnClickListener,
         }
     }
 
-
     @Override
-    public void onItemClick(View view, int position) {
-        PromiseBean promiseBean = promiseBeanList.get(position);
+    public void delPromiseItem(PromiseBean promiseBean, int position) {
+        Log.i("getPromiseData", "##### delPromiseItem: " + position);
         promiseBeanList.remove(promiseBean);
-        adapter.notifyItemRemoved(position);
-        index--;
-        Log.i("getPromiseData", "onItemClick: "+position);
+        adapter.setPromiseBeanList(promiseBeanList);
     }
 
-
+    /**
+     * 跳转到其他界面
+     */
     private void gotoOtherView() {
         Intent intent = new Intent(context,OtherActivity.class);
         startActivity(intent);
     }
+
 
 }
