@@ -20,7 +20,6 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
     private Context context;
     private List<OtherBean> otherBeanList;
     private AddAddressItemListener addressItemListener;
-    private int position;
 
     public OneAdapter(Context context) {
         this.context = context;
@@ -42,15 +41,27 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
     @Override
     public OtherHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.view_other_item_view,parent,false);
-        return new OtherHolder(view,position);
+        return new OtherHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(OtherHolder holder, int position) {
-        this.position = position;
+    public void onBindViewHolder(OtherHolder holder, final int position) {
         OtherHolder otherHolder = holder;
-        OtherBean otherBean = otherBeanList.get(position);
+        final OtherBean otherBean = otherBeanList.get(position);
         otherHolder.tv_desc.setText(otherBean.getOtherDesc());
+        holder.but_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (addressItemListener != null){
+                    AddressBean addressBean = new AddressBean();
+                    String otherDesc = otherBean.getOtherDesc() + "==" + position;
+                    addressBean.setAddress(otherDesc);
+                    addressBean.setId(position);
+                    addressItemListener.addAddressItem(addressBean,position);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -59,38 +70,15 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
     }
 
 
-    class OtherHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class OtherHolder extends RecyclerView.ViewHolder{
 
         private final TextView tv_desc;
         private final Button but_location;
-        private int position;
 
-        public OtherHolder(View itemView, int position) {
+        public OtherHolder(View itemView) {
             super(itemView);
-            this.position = position;
             tv_desc = itemView.findViewById(R.id.tv_desc);
             but_location = itemView.findViewById(R.id.but_location);
-            but_location.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()){
-                case R.id.but_location:
-                    addAddressBean();
-                    break;
-            }
-        }
-
-        private void addAddressBean() {
-            AddressBean addressBean = new AddressBean();
-            OtherBean otherBean = otherBeanList.get(position);
-            String otherDesc = otherBean.getOtherDesc() + "==" + position;
-            addressBean.setAddress(otherDesc);
-            addressBean.setId(position);
-            if (addressItemListener != null){
-                addressItemListener.addAddressItem(addressBean,position);
-            }
         }
     }
 }

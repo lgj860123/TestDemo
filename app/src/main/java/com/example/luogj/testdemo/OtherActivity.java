@@ -36,6 +36,9 @@ public class OtherActivity extends Activity implements AddAddressItemListener{
         initView();
     }
 
+    /**
+     * 初始化测试数据
+     */
     private void initData() {
         OtherBean otherBeanOne = new OtherBean();
         otherBeanOne.setOtherBeanId(1);
@@ -48,6 +51,9 @@ public class OtherActivity extends Activity implements AddAddressItemListener{
         otherBeanList.add(otherBeanTwo);
     }
 
+    /**
+     * 初始化界面
+     */
     private void initView() {
         rv_one = findViewById(R.id.rv_one);
         rv_two = findViewById(R.id.rv_two);
