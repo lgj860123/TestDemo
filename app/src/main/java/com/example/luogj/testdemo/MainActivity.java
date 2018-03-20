@@ -121,9 +121,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void delPromiseItem(PromiseBean promiseBean, int position) {
         Log.i("getPromiseData", "##### delPromiseItem: " + position);
-        promiseBeanList.remove(promiseBean);
-//        adapter.setPromiseBeanList(promiseBeanList);
-//        adapter.notifyItemChanged(position);
+        if (promiseBeanList.size() == 1){
+            promiseBeanList.remove(promiseBean);
+            adapter.setPromiseBeanList(promiseBeanList);
+        }else {
+            promiseBeanList.remove(promiseBean);
+        }
     }
 
     /**
