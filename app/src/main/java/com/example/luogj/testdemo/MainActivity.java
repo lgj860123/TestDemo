@@ -3,7 +3,6 @@ package com.example.luogj.testdemo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener,
-        OnMoneyFillListener, OnDateFillListener,OnDescriptionFillListener,OnRemarksFillListener,DelPromiseItemListener{
+        OnMoneyFillListener, OnDateFillListener,OnDescriptionFillListener,OnRemarksFillListener,DelObjectItemListener {
 
     private Context context;
     private RelativeLayout rl_addPromise;
@@ -119,8 +118,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
     @Override
-    public void delPromiseItem(PromiseBean promiseBean, int position) {
-        Log.i("getPromiseData", "##### delPromiseItem: " + position);
+    public void delObjectItem(Object promiseBean, int position) {
+        Log.i("getPromiseData", "##### delObjectItem: " + position);
         if (promiseBeanList.size() == 1){
             promiseBeanList.remove(promiseBean);
             adapter.setPromiseBeanList(promiseBeanList);

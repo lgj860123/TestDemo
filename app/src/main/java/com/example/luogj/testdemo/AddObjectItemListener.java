@@ -5,6 +5,6 @@ package com.example.luogj.testdemo;
  * Created by Administrator on 2018/3/16.
  */
 
-public interface AddAddressItemListener {
-    void addAddressItem(AddressBean addressBean,int position);
+public interface AddObjectItemListener {
+    void addObjectItem(Object object, int position);
 }

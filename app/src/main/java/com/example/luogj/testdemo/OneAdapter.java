@@ -19,7 +19,7 @@ import java.util.List;
 public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
     private Context context;
     private List<OtherBean> otherBeanList;
-    private AddAddressItemListener addressItemListener;
+    private AddObjectItemListener addressItemListener;
 
     public OneAdapter(Context context) {
         this.context = context;
@@ -34,7 +34,7 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
         notifyDataSetChanged();
     }
 
-    public void setAddressItemListener(AddAddressItemListener listener){
+    public void setAddressItemListener(AddObjectItemListener listener){
         this.addressItemListener = listener;
     }
 
@@ -59,7 +59,7 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.OtherHolder>{
                         String otherDesc = otherBean.getOtherDesc() + "==" + position;
                         addressBean.setAddress(otherDesc);
                         addressBean.setId(position);
-                        addressItemListener.addAddressItem(addressBean,position);
+                        addressItemListener.addObjectItem(addressBean,position);
                     }
                 }
             }

@@ -5,6 +5,6 @@ package com.example.luogj.testdemo;
  * Created by luogj on 2018/3/19.
  */
 
-public interface DelPromiseItemListener {
-    void delPromiseItem(PromiseBean promiseBean,int position);
+public interface DelObjectItemListener {
+    void delObjectItem(Object object, int position);
 }

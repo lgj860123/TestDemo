@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
     private OnDateFillListener dateFillListener;
     private OnDescriptionFillListener descriptionFillListener;
     private OnRemarksFillListener remarksFillListener;
-    private DelPromiseItemListener delPromiseItemListener;
+    private DelObjectItemListener delPromiseItemListener;
 
     public PromiseAdapter(Context context) {
         this.context = context;
@@ -84,7 +83,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
      * 设置删除按钮监听器
      * @param listener
      */
-    public void setDelPromiseItemListener(DelPromiseItemListener listener){
+    public void setDelPromiseItemListener(DelObjectItemListener listener){
         this.delPromiseItemListener = listener;
     }
 
@@ -195,7 +194,7 @@ public class PromiseAdapter extends RecyclerView.Adapter<PromiseAdapter.PromiseH
             public void onClick(View view) {
                 if (delPromiseItemListener != null){
                     promiseBeanList.remove(promiseBean);
-                    delPromiseItemListener.delPromiseItem(promiseBean,position);
+                    delPromiseItemListener.delObjectItem(promiseBean,position);
                     notifyItemRemoved(position);
                 }
             }

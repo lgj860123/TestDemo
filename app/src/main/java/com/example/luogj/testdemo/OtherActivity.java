@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  * Created by luogj on 2018/3/16.
  */
 
-public class OtherActivity extends Activity implements AddAddressItemListener{
+public class OtherActivity extends Activity implements AddObjectItemListener,DelObjectItemListener {
 
     private RecyclerView rv_one;
     private RecyclerView rv_two;
@@ -73,12 +72,13 @@ public class OtherActivity extends Activity implements AddAddressItemListener{
 
         rv_two.setLayoutManager(managerTwo);
         rv_two.setAdapter(twoAdapter);
+        twoAdapter.setDelObjectItemListener(this);
     }
 
     @Override
-    public void addAddressItem(AddressBean addressBean, int position) {
+    public void addObjectItem(Object addressBean, int position) {
         if (addressBeanList.size() == 0){
-            addressBeanList.add(addressBean);
+            addressBeanList.add((AddressBean) addressBean);
             twoAdapter.setAddressBeanList(addressBeanList);
         }else {
             for (int i = 0; i < addressBeanList.size(); i++){
@@ -89,10 +89,16 @@ public class OtherActivity extends Activity implements AddAddressItemListener{
                     return;
                 }
             }
-            addressBeanList.add(addressBean);
+            addressBeanList.add((AddressBean) addressBean);
             twoAdapter.setAddressBeanList(addressBeanList);
         }
 
 
+    }
+
+    @Override
+    public void delObjectItem(Object object, int position) {
+        addressBeanList.remove(object);
+        twoAdapter.setAddressBeanList(addressBeanList);
     }
 }
